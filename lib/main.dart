@@ -1,3 +1,4 @@
+import 'package:app_kasir/providers/add_form_provider.dart';
 import 'package:app_kasir/providers/sqflite_provider.dart';
 import 'package:app_kasir/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,8 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context){
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => SqfliteProvider())
+        ChangeNotifierProvider(create: (context) => SqfliteProvider()),
+        ChangeNotifierProvider(create: (context) => AddFormProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

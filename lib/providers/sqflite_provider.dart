@@ -1,4 +1,5 @@
 import 'package:app_kasir/models/product_model.dart';
+import 'package:app_kasir/providers/add_form_provider.dart';
 import 'package:app_kasir/services/sqflite_intance.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -34,18 +35,17 @@ class SqfliteProvider extends ChangeNotifier{
 		notifyListeners();
 	}
 
-	Future<void> addProduct() async {
+	Future<void> addProduct(AddFormProvider addFormProvider) async {
 		try{
 			final result = await _sqfliteIntance.insertData({
-				'name': 'Beng - beng',
-				'stock': 100,
-				'price': 2000
+				'name': addFormProvider.name.text,
+				'stock': int.parse(addFormProvider.stock.text),
+				'price': int.parse(addFormProvider.price.text)
 			});
 
 			print(result);
 		}catch(e){
 			rethrow;
-			print(e);
 		}
 		notifyListeners();
 	}
