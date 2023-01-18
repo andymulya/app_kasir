@@ -1,5 +1,5 @@
 import 'package:app_kasir/providers/add_form_provider.dart';
-import 'package:app_kasir/providers/sqflite_provider.dart';
+import 'package:app_kasir/providers/product_database_provider.dart';
 import 'package:app_kasir/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context){
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => SqfliteProvider()),
+        ChangeNotifierProvider(create: (context) => ProductDatabaseProvider()),
         ChangeNotifierProvider(create: (context) => AddFormProvider())
       ],
       child: MaterialApp(

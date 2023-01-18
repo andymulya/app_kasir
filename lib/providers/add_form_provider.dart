@@ -16,11 +16,5 @@ class AddFormProvider extends ChangeNotifier{
 	TextEditingController get stock => _stock;
 	TextEditingController get price => _price;
 
-	void inputDispose(){
-		_name.dispose();
-		_stock.dispose();
-		_price.dispose();
-		notifyListeners();
-	}
 
 }

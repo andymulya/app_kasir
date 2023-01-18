@@ -1,5 +1,5 @@
 import 'package:app_kasir/providers/add_form_provider.dart';
-import 'package:app_kasir/providers/sqflite_provider.dart';
+import 'package:app_kasir/providers/product_database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +11,7 @@ class AddProductPage extends StatelessWidget{
 	@override
 	Widget build(BuildContext context){
 		final addFormProvider = Provider.of<AddFormProvider>(context);
-		final sqfliteProvider = Provider.of<SqfliteProvider>(context);
+		final sqfliteProvider = Provider.of<ProductDatabaseProvider>(context);
 
 		return Scaffold(
 			appBar: AppBar(
@@ -23,7 +23,7 @@ class AddProductPage extends StatelessWidget{
 					)
 				],
 			),
-			body: Consumer<SqfliteProvider>(
+			body: Consumer<ProductDatabaseProvider>(
 				builder: (context, value, _){
 					if(value.isLoading) return const Center(child: CircularProgressIndicator());
 					if(value.products.isEmpty) return const Center(child: Text('Produk Kosong'));
@@ -36,7 +36,7 @@ class AddProductPage extends StatelessWidget{
 }
 
 //View show dialog untuk form tambah data produk
-void _showSimpleDialog(BuildContext context, AddFormProvider addFormProvider, SqfliteProvider sqfliteProvider){
+void _showSimpleDialog(BuildContext context, AddFormProvider addFormProvider, ProductDatabaseProvider sqfliteProvider){
 	showDialog(context: context, 
 		builder: (context) => SimpleDialog(
 			children: [
@@ -87,7 +87,7 @@ void _showSimpleDialog(BuildContext context, AddFormProvider addFormProvider, Sq
 							  		  	  		  	),
 							  		  	  		  	keyboardType: TextInputType.number,
 							  		  	  		  	validator: (value){
-							  		  	  		  		if(value!.isEmpty) return 'Masukkan stok yang valid'; 
+							  		  	  		  		if(value!.isEmpty) return 'Masukkan stok yang valid';
 							  		  	  		  		return null;
 							  		  	  		  	},
 							  		  	  		),

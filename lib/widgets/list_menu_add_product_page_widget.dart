@@ -1,8 +1,8 @@
-import 'package:app_kasir/providers/sqflite_provider.dart';
+import 'package:app_kasir/providers/product_database_provider.dart';
 import 'package:flutter/material.dart';
 
 class ListMenuAddProductPageWidget extends StatelessWidget{
-	final SqfliteProvider datas;
+	final ProductDatabaseProvider datas;
 
 	const ListMenuAddProductPageWidget({required this.datas, super.key});
 

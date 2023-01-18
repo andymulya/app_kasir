@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../providers/sqflite_provider.dart';
+import '../providers/product_database_provider.dart';
 
 class ListMenuMainPageWidget extends StatelessWidget{
-	final SqfliteProvider datas;
+	final ProductDatabaseProvider datas;
 	const ListMenuMainPageWidget({required this.datas, super.key});
 
 	@override

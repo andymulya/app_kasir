@@ -1,9 +1,11 @@
 import 'package:app_kasir/models/product_model.dart';
-import 'package:app_kasir/models/table_product_model.dart';
+import 'package:app_kasir/models/table_cart_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class SqfliteIntance{
+import '../models/table_product_model.dart';
+
+mixin SqfliteIntance{
 
 	static const String _databaseName = 'database_app';
 	static const int _databaseVersion = 1;
@@ -12,6 +14,9 @@ class SqfliteIntance{
 
 	//Product Table
 	static final tableProduct = TableProductModel();
+
+	//Cart Table
+	static final tableCart = TableCartModel();
 
 	Future<Database> createDatabase() async {
 		if(_database != null) return _database!;
@@ -34,33 +39,18 @@ class SqfliteIntance{
 	//Membuat tabel
 	static Future<void> _onCreate(Database db, int version) async {
 		try{
-			await db.execute('CREATE TABLE ${tableProduct.tableName}(${tableProduct.id} INTEGER PRIMARY KEY AUTOINCREMENT, ${tableProduct.name} TEXT, ${tableProduct.stock} INTEGER, ${tableProduct.price} INTEGER)');
+			await db.transaction((txn) async {
+				await txn.execute('CREATE TABLE ${tableProduct.tableName}(${tableProduct.id} INTEGER PRIMARY KEY AUTOINCREMENT, ${tableProduct.name} TEXT, ${tableProduct.stock} INTEGER, ${tableProduct.price} INTEGER)');
+				await txn.execute('CREATE TABLE ${tableCart.tableName}(${tableCart.id} INTEGER PRIMARY KEY AUTOINCREMENT, ${tableCart.name} TEXT, ${tableCart.qty} INTEGER, ${tableCart.price} INTEGER)');
+			});
 		}catch(e){
 			rethrow;
 		}
 	}
 
 	//Ambil semua data
-	Future<List<ProductModel>> getDatas() async {
-		final db = await SqfliteIntance().createDatabase();
-		try{
-			final List<Map<String, dynamic>> getDatas = await db.query(tableProduct.tableName);
-			final List<ProductModel> result = getDatas.map((e) => ProductModel.fromDatabase(e)).toList();
-			return result;
-		}catch(e){
-			rethrow;
-		}
-	}
+	Future<List<dynamic>> getDatas();
 
 	//Tambah data ke database
-	Future<int> insertData(Map<String, dynamic> data) async {
-		final db = await SqfliteIntance().createDatabase();
-		try{
-			final insert = await db.insert(tableProduct.tableName,data);
-			return insert;
-		}catch(e){
-			rethrow;
-		}
-	}
-
+	Future<int> insertData(Map<String, dynamic> data);
 }

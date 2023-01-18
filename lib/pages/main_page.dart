@@ -1,4 +1,4 @@
-import 'package:app_kasir/providers/sqflite_provider.dart';
+import 'package:app_kasir/providers/product_database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +9,7 @@ class MainPage extends StatelessWidget{
 
 	//Untuk mendapatkan product ketika halaman baru dujalankan
 	Future<void> getProducts(BuildContext context) async {
-		final products = Provider.of<SqfliteProvider>(context);
+		final products = Provider.of<ProductDatabaseProvider>(context);
 		await products.getProducts();
 	}
 
@@ -26,7 +26,7 @@ class MainPage extends StatelessWidget{
 			appBar: AppBar(
 				title: const Text('Menu Product')
 			),
-			body: Consumer<SqfliteProvider>(
+			body: Consumer<ProductDatabaseProvider>(
 				builder: (context, value, _){
 					if(value.isLoading) return const Center(child: CircularProgressIndicator());
 			    	if(value.products.isEmpty) return const Center(child: Text('Produk Kosong'));

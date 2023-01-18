@@ -1,13 +1,14 @@
 import 'package:app_kasir/models/product_model.dart';
 import 'package:app_kasir/providers/add_form_provider.dart';
-import 'package:app_kasir/services/sqflite_intance.dart';
+import 'package:app_kasir/services/product_database.dart';
+import 'package:app_kasir/utility/func.dart';
 import 'package:flutter/cupertino.dart';
 
-class SqfliteProvider extends ChangeNotifier{
+class ProductDatabaseProvider extends ChangeNotifier{
 	List<ProductModel> _products = [];
 	List<ProductModel> get products => _products;
-	set products(product){
-		_products = product;
+	set products(products){
+		_products = products;
 		notifyListeners();
 	}
 
@@ -18,21 +19,16 @@ class SqfliteProvider extends ChangeNotifier{
 		notifyListeners();
 	}
 
-	final _sqfliteIntance = SqfliteIntance();
+	final _productDatabase = ProductDatabase();
 
-	SqfliteProvider(){
+	ProductDatabaseProvider(){
 		getProducts();
-	}
-
-	Future<void> checkDb() async {
-		await _sqfliteIntance.createDatabase();
-		notifyListeners();
 	}
 
 	Future<void> getProducts() async {
 		setIsLoading(true);
 
-		final result = await _sqfliteIntance.getDatas();
+		final result = await _productDatabase.getDatas();
 		_products = result;
 
 		setIsLoading(false);
@@ -41,10 +37,10 @@ class SqfliteProvider extends ChangeNotifier{
 
 	Future<void> addProduct(AddFormProvider addFormProvider) async {
 		try{
-			await _sqfliteIntance.insertData({
+			await _productDatabase.insertData({
 				'name': addFormProvider.name.text,
-				'stock': int.parse(addFormProvider.stock.text),
-				'price': int.parse(addFormProvider.price.text)
+				'stock': convertPositif(int.parse(addFormProvider.stock.text)),
+				'price': convertPositif(int.parse(addFormProvider.price.text))
 			});
 		}catch(e){
 			rethrow;
