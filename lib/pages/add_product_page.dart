@@ -3,6 +3,8 @@ import 'package:app_kasir/providers/sqflite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/list_menu_add_product_page_widget.dart';
+
 class AddProductPage extends StatelessWidget{
 	const AddProductPage({super.key});
 
@@ -16,25 +18,22 @@ class AddProductPage extends StatelessWidget{
 				title: const Text('Tambah Product'),
 				actions: [
 					IconButton(
-						onPressed: (){
-							_showSimpleDialog(context, addFormProvider, sqfliteProvider);
-						},
+						onPressed: () => _showSimpleDialog(context, addFormProvider, sqfliteProvider),
 						icon: const Icon(Icons.add)
 					)
 				],
 			),
 			body: Consumer<SqfliteProvider>(
 				builder: (context, value, _){
-					if(value.products.isEmpty) return const Center(child: Text('Produk Kosong'));
 					if(value.isLoading) return const Center(child: CircularProgressIndicator());
+					if(value.products.isEmpty) return const Center(child: Text('Produk Kosong'));
 
-					return ListMenuAddProductWidget();
+					return ListMenuAddProductPageWidget(datas: value,);
 				},
 			),
 		);
 	} 
 }
-
 
 //View show dialog untuk form tambah data produk
 void _showSimpleDialog(BuildContext context, AddFormProvider addFormProvider, SqfliteProvider sqfliteProvider){
@@ -88,7 +87,7 @@ void _showSimpleDialog(BuildContext context, AddFormProvider addFormProvider, Sq
 							  		  	  		  	),
 							  		  	  		  	keyboardType: TextInputType.number,
 							  		  	  		  	validator: (value){
-							  		  	  		  		if(value!.isEmpty) return 'Stok tidak boleh kosong';
+							  		  	  		  		if(value!.isEmpty) return 'Masukkan stok yang valid'; 
 							  		  	  		  		return null;
 							  		  	  		  	},
 							  		  	  		),
@@ -120,8 +119,6 @@ void _showSimpleDialog(BuildContext context, AddFormProvider addFormProvider, Sq
 						  		  	  					addFormProvider.stock.text = '';
 						  		  	  					addFormProvider.price.text = '';
 
-						  		  	  				}else{
-						  		  	  					print('gagal mengirimkan data produk');	
 						  		  	  				}
 						  		  	  			},
 						  		  	  			child: const Text('Tambahkan Produk')

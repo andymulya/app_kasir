@@ -8,7 +8,7 @@ class SqfliteProvider extends ChangeNotifier{
 	List<ProductModel> get products => _products;
 	set products(product){
 		_products = product;
-		notifyListeners;
+		notifyListeners();
 	}
 
 	bool _isLoading = false;
@@ -19,6 +19,10 @@ class SqfliteProvider extends ChangeNotifier{
 	}
 
 	final _sqfliteIntance = SqfliteIntance();
+
+	SqfliteProvider(){
+		getProducts();
+	}
 
 	Future<void> checkDb() async {
 		await _sqfliteIntance.createDatabase();
@@ -37,13 +41,11 @@ class SqfliteProvider extends ChangeNotifier{
 
 	Future<void> addProduct(AddFormProvider addFormProvider) async {
 		try{
-			final result = await _sqfliteIntance.insertData({
+			await _sqfliteIntance.insertData({
 				'name': addFormProvider.name.text,
 				'stock': int.parse(addFormProvider.stock.text),
 				'price': int.parse(addFormProvider.price.text)
 			});
-
-			print(result);
 		}catch(e){
 			rethrow;
 		}
