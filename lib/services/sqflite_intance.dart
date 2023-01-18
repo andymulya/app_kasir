@@ -1,4 +1,5 @@
 import 'package:app_kasir/models/product_model.dart';
+import 'package:app_kasir/models/table_product_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -10,11 +11,7 @@ class SqfliteIntance{
 	Database? _database;
 
 	//Product Table
-	static const String tableName = 'product',
-	id = 'id',
-	name = 'name',
-	stock = 'stock',
-	price = 'price';
+	static final tableProduct = TableProductModel();
 
 	Future<Database> createDatabase() async {
 		if(_database != null) return _database!;
@@ -37,7 +34,7 @@ class SqfliteIntance{
 	//Membuat tabel
 	static Future<void> _onCreate(Database db, int version) async {
 		try{
-			await db.execute('CREATE TABLE $tableName($id INTEGER PRIMARY KEY AUTOINCREMENT, $name TEXT, $stock INTEGER, $price INTEGER)');
+			await db.execute('CREATE TABLE ${tableProduct.tableName}(${tableProduct.id} INTEGER PRIMARY KEY AUTOINCREMENT, ${tableProduct.name} TEXT, ${tableProduct.stock} INTEGER, ${tableProduct.price} INTEGER)');
 		}catch(e){
 			rethrow;
 		}
@@ -47,7 +44,7 @@ class SqfliteIntance{
 	Future<List<ProductModel>> getDatas() async {
 		final db = await SqfliteIntance().createDatabase();
 		try{
-			final List<Map<String, dynamic>> getDatas = await db.query(tableName);
+			final List<Map<String, dynamic>> getDatas = await db.query(tableProduct.tableName);
 			final List<ProductModel> result = getDatas.map((e) => ProductModel.fromDatabase(e)).toList();
 			return result;
 		}catch(e){
@@ -59,7 +56,7 @@ class SqfliteIntance{
 	Future<int> insertData(Map<String, dynamic> data) async {
 		final db = await SqfliteIntance().createDatabase();
 		try{
-			final insert = await db.insert(tableName,data);
+			final insert = await db.insert(tableProduct.tableName,data);
 			return insert;
 		}catch(e){
 			rethrow;
