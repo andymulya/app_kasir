@@ -1,8 +1,8 @@
-import 'package:app_kasir/providers/add_form_provider.dart';
-import 'package:app_kasir/providers/product_database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/add_form_provider.dart';
+import '../providers/product_database_provider.dart';
 import '../widgets/list_menu_add_product_page_widget.dart';
 
 class AddProductPage extends StatelessWidget{
@@ -110,11 +110,10 @@ void _showSimpleDialog(BuildContext context, AddFormProvider addFormProvider, Pr
 
 						  		  	  		//Tombol untuk mengirim data produk
 						  		  	  		ElevatedButton(
-						  		  	  			onPressed: () async {
+						  		  	  			onPressed: (){
 						  		  	  				if(addFormProvider.formKey.currentState!.validate()){
 
-						  		  	  					await sqfliteProvider.addProduct(addFormProvider);
-						  		  	  					await sqfliteProvider.getProducts();
+						  		  	  					sqfliteProvider.addProduct(addFormProvider);
 						  		  	  					addFormProvider.name.text = '';
 						  		  	  					addFormProvider.stock.text = '';
 						  		  	  					addFormProvider.price.text = '';

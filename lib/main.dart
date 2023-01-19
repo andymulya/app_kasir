@@ -1,8 +1,11 @@
-import 'package:app_kasir/providers/add_form_provider.dart';
-import 'package:app_kasir/providers/product_database_provider.dart';
-import 'package:app_kasir/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'providers/add_form_provider.dart';
+import 'providers/cart_database_provider.dart';
+import 'providers/product_database_provider.dart';
+import 'providers/qty_widget_provider.dart';
+import 'routes/routes.dart';
 
 void main() => runApp(const MyApp());
 
@@ -14,7 +17,9 @@ class MyApp extends StatelessWidget{
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ProductDatabaseProvider()),
-        ChangeNotifierProvider(create: (context) => AddFormProvider())
+        ChangeNotifierProvider(create: (context) => CartDatabaseProvider()),
+        ChangeNotifierProvider(create: (context) => AddFormProvider()),
+        ChangeNotifierProvider(create: (context) => QtyWidgetProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

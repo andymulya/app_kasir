@@ -1,8 +1,9 @@
-import 'package:app_kasir/models/product_model.dart';
-import 'package:app_kasir/providers/add_form_provider.dart';
-import 'package:app_kasir/services/product_database.dart';
-import 'package:app_kasir/utility/func.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../models/product_model.dart';
+import '../services/product_database.dart';
+import '../utility/func.dart';
+import 'add_form_provider.dart';
 
 class ProductDatabaseProvider extends ChangeNotifier{
 	List<ProductModel> _products = [];
@@ -42,10 +43,19 @@ class ProductDatabaseProvider extends ChangeNotifier{
 				'stock': convertPositif(int.parse(addFormProvider.stock.text)),
 				'price': convertPositif(int.parse(addFormProvider.price.text))
 			});
+			await getProducts();
 		}catch(e){
 			rethrow;
 		}
-		notifyListeners();
+	}
+
+	Future<void> deteleProduct(int id) async {
+		try{
+			await _productDatabase.deleteData(id);
+			await getProducts();
+		}catch(e){
+			rethrow;
+		}
 	}
 
 

@@ -1,7 +1,6 @@
-import 'package:app_kasir/services/sqflite_intance.dart';
-
 import '../models/cart_model.dart';
 import '../models/table_cart_model.dart';
+import 'sqflite_intance.dart';
 
 class CartDatabase with SqfliteIntance{
 
@@ -28,6 +27,18 @@ class CartDatabase with SqfliteIntance{
 		try{
 			final insert = await db.insert(tableCart.tableName,data);
 			return insert;
+		}catch(e){
+			rethrow;
+		}
+	}
+
+	@override
+	Future<int> deleteData(int id) async {
+		final db = await CartDatabase().createDatabase();
+
+		try{
+			final delete = await db.delete(tableCart.tableName, where: 'id = ?', whereArgs: [id]);
+			return delete;
 		}catch(e){
 			rethrow;
 		}

@@ -1,8 +1,7 @@
-import 'package:app_kasir/models/product_model.dart';
-import 'package:app_kasir/models/table_cart_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../models/table_cart_model.dart';
 import '../models/table_product_model.dart';
 
 mixin SqfliteIntance{
@@ -41,7 +40,7 @@ mixin SqfliteIntance{
 		try{
 			await db.transaction((txn) async {
 				await txn.execute('CREATE TABLE ${tableProduct.tableName}(${tableProduct.id} INTEGER PRIMARY KEY AUTOINCREMENT, ${tableProduct.name} TEXT, ${tableProduct.stock} INTEGER, ${tableProduct.price} INTEGER)');
-				await txn.execute('CREATE TABLE ${tableCart.tableName}(${tableCart.id} INTEGER PRIMARY KEY AUTOINCREMENT, ${tableCart.name} TEXT, ${tableCart.qty} INTEGER, ${tableCart.price} INTEGER)');
+				await txn.execute('CREATE TABLE ${tableCart.tableName}(${tableCart.id} INTEGER PRIMARY KEY, ${tableCart.name} TEXT, ${tableCart.qty} INTEGER, ${tableCart.price} INTEGER)');
 			});
 		}catch(e){
 			rethrow;
@@ -53,4 +52,7 @@ mixin SqfliteIntance{
 
 	//Tambah data ke database
 	Future<int> insertData(Map<String, dynamic> data);
+
+	// Hapus data di database
+	Future<int> deleteData(int id);
 }
