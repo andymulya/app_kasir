@@ -51,7 +51,10 @@ mixin SqfliteIntance{
 	Future<List<dynamic>> getDatas();
 
 	//Tambah data ke database
-	Future<int> insertData(Map<String, dynamic> data);
+	Future<int> insertData(Map<String, dynamic> datas);
+
+	//Memperbarui data yang dipilih di database
+	Future<int> updateData(int id, Map<String, dynamic> datas);
 
 	// Hapus data di database
 	Future<int> deleteData(int id);

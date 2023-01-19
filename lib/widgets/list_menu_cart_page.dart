@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../models/cart_model.dart';
 import '../providers/cart_database_provider.dart';
 
 class ListMenuCartPageWidget extends StatelessWidget{
@@ -14,7 +15,7 @@ class ListMenuCartPageWidget extends StatelessWidget{
 			itemBuilder: (context, i){
 				return Container(
 					margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
-					height: MediaQuery.of(context).size.width / 4,
+					height: 100,
 					decoration: BoxDecoration(
 						color: Colors.blue.shade200,
 						borderRadius: BorderRadius.circular(10),
@@ -49,8 +50,8 @@ class ListMenuCartPageWidget extends StatelessWidget{
 
 							//Actions
 							IconButton(
-								onPressed: (){},
-								icon: const Icon(Icons.remove_sharp, color: Colors.red)
+								onPressed: () => _showSimpleDialog(context, datas, datas.carts[i]),
+								icon: const Icon(Icons.delete, color: Colors.red)
 							)
 						],
 					),
@@ -58,4 +59,39 @@ class ListMenuCartPageWidget extends StatelessWidget{
 			}
 		);
 	}
+}
+
+//View show dialog untuk produk yang ingin dihapus atau tidak
+void _showSimpleDialog(BuildContext context, CartDatabaseProvider action, CartModel data){
+	showDialog(context: context, 
+		builder: (context) =>  SimpleDialog(
+			children: [
+				const Padding(
+					padding: EdgeInsets.all(8.0),
+					child: Center(child: Text('Apakah anda yakin ingin menghapus produk ini?')),
+				),
+
+				SizedBox(
+					child: Row(
+						mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+						children: [
+
+							ElevatedButton(
+								onPressed: () => Navigator.pop(context),
+								child: const Text('Tidak')
+							),
+
+							ElevatedButton(
+								onPressed: (){
+									action.deteleCart(data.id);
+									Navigator.pop(context);
+								},
+								child: const Text('Ya'),
+							),
+						],
+					),
+				)
+			]
+		)
+	);
 }

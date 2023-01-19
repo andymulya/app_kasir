@@ -15,7 +15,7 @@ class AddProductPage extends StatelessWidget{
 
 		return Scaffold(
 			appBar: AppBar(
-				title: const Text('Tambah Product'),
+				title: const Text('Tambah Produk'),
 				actions: [
 					IconButton(
 						onPressed: () => _showSimpleDialog(context, addFormProvider, sqfliteProvider),

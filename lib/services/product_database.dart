@@ -22,22 +22,36 @@ class ProductDatabase with SqfliteIntance{
 
 	//Tambah data ke database
 	@override
-	Future<int> insertData(Map<String, dynamic> data) async {
+	Future<int> insertData(Map<String, dynamic> datas) async {
 		final db = await ProductDatabase().createDatabase();
 		try{
-			final insert = await db.insert(tableProduct.tableName,data);
+			final insert = await db.insert(tableProduct.tableName,datas);
 			return insert;
 		}catch(e){
 			rethrow;
 		}
 	}
 
+	//Menghapus data di database
 	@override
 	Future<int> deleteData(int id) async {
 		final db = await ProductDatabase().createDatabase();
 		try{
 			final delete = await db.delete(tableProduct.tableName, where: 'id = ?', whereArgs: [id]);
 			return delete;
+		}catch(e){
+			rethrow;
+		}
+	}
+
+  @override
+  Future<int> updateData(int id, Map<String, dynamic> datas) async {
+    final db = await ProductDatabase().createDatabase();
+
+		try{
+			final update = await db.update(tableProduct.tableName, datas, where: 'id = ?', whereArgs: [id]);
+
+			return update;
 		}catch(e){
 			rethrow;
 		}

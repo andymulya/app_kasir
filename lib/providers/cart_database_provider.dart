@@ -1,9 +1,9 @@
+import 'package:app_kasir/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 import '../models/cart_model.dart';
 import '../services/cart_database.dart';
 import '../utility/func.dart';
-import 'add_form_provider.dart';
 
 class CartDatabaseProvider extends ChangeNotifier{
 	List<CartModel> _carts = [];
@@ -23,10 +23,11 @@ class CartDatabaseProvider extends ChangeNotifier{
 	final _cartDatabase = CartDatabase();
 
 	CartDatabaseProvider(){
-		getProducts();
+		getCarts();
 	}
 
-	Future<void> getProducts() async {
+	//Ambil semua data cart
+	Future<void> getCarts() async {
 		setIsLoading(true);
 
 		final result = await _cartDatabase.getDatas();
@@ -36,19 +37,40 @@ class CartDatabaseProvider extends ChangeNotifier{
 		notifyListeners();
 	}
 
-	Future<void> addCart(AddFormProvider addFormProvider) async {
-		try{
-			await _cartDatabase.insertData({
-				'name': addFormProvider.name.text,
-				'qty': convertPositif(int.parse(addFormProvider.stock.text)),
-				'price': convertPositif(int.parse(addFormProvider.price.text))
-			});
+	//menambahkan data cart
+	Future<void> addCart(ProductModel product, int qty) async {
+		final checkData = await _cartDatabase.checkData(product.id);
 
-			await getProducts();
+		try{
+			if(checkData > 0){
+				final getQty = await _cartDatabase.getQty(product.id);
+
+				await _cartDatabase.updateData(product.id, {
+					'name': product.name,
+					'qty': qty + getQty,
+					'price': convertPositif(product.price)
+				});
+			}else{
+				await _cartDatabase.insertData({
+					'name': product.name,
+					'qty': convertPositif(qty),
+					'price': convertPositif(product.price)
+				});
+			}
+
+			await getCarts();
 		}catch(e){
 			rethrow;
 		}
 	}
 
+	Future<void> deteleCart(int id) async {
+		try{
+			await _cartDatabase.deleteData(id);
+			await getCarts();
+		}catch(e){
+			rethrow;
+		}
+	}
 
 }

@@ -11,7 +11,7 @@ class CartPage extends StatelessWidget{
 	//Untuk mendapatkan cart ketika halaman baru dujalankan
 	Future<void> getProducts(BuildContext context) async {
 		final carts = Provider.of<CartDatabaseProvider>(context);
-		await carts.getProducts();
+		await carts.getCarts();
 	}
 
 	@override

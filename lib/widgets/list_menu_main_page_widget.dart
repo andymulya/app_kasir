@@ -1,3 +1,4 @@
+import 'package:app_kasir/providers/qty_widget_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,20 +9,21 @@ import 'detail_product_widget.dart';
 import 'qty_widget.dart';
 
 class ListMenuMainPageWidget extends StatelessWidget{
-	final ProductDatabaseProvider datas;
-	const ListMenuMainPageWidget({required this.datas, super.key});
+	final ProductDatabaseProvider productProvider;
+	const ListMenuMainPageWidget({required this.productProvider, super.key});
 
 	@override
 	Widget build(BuildContext context){
 
 		final cartProvider = Provider.of<CartDatabaseProvider>(context);
+		final qtyProvider = Provider.of<QtyWidgetProvider>(context);
 
 		return ListView.builder(
-			itemCount: datas.products.length,
+			itemCount: productProvider.products.length,
 			itemBuilder: (context, i){
 				return Container(
 					margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
-					height: MediaQuery.of(context).size.width / 4,
+					height: 100,
 					decoration: BoxDecoration(
 						color: Colors.blue.shade200,
 						borderRadius: BorderRadius.circular(10),
@@ -44,19 +46,19 @@ class ListMenuMainPageWidget extends StatelessWidget{
 								mainAxisAlignment: MainAxisAlignment.center,
 								children: [
 									//Nama produk
-									Text(datas.products[i].name),
+									Text(productProvider.products[i].name),
 
 									//Stok produk
-									Text('Stok: ${datas.products[i].stock.toString()}')
+									Text('Stok: ${productProvider.products[i].stock.toString()}')
 								],
 							),
 
 							//Harga produk
-							Text('Rp. ${datas.products[i].price.toString()}'),
+							Text('Rp. ${productProvider.products[i].price.toString()}'),
 
 							//Actions
 							IconButton(
-								onPressed: () => _showSimpleModalBottomSheet(context, datas.products[i], cartProvider),
+								onPressed: () => _showSimpleModalBottomSheet(context, productProvider.products[i], productProvider, cartProvider, qtyProvider),
 								icon: const Icon(Icons.shopping_cart_checkout, color: Colors.blue,)
 							)
 						],
@@ -67,7 +69,7 @@ class ListMenuMainPageWidget extends StatelessWidget{
 	}
 }
 
-void _showSimpleModalBottomSheet(BuildContext context, ProductModel datas, CartDatabaseProvider cartProvider){
+void _showSimpleModalBottomSheet(BuildContext context, ProductModel datas, ProductDatabaseProvider productProvider, CartDatabaseProvider cartProvider, QtyWidgetProvider qtyProvider){
 
 	showModalBottomSheet(
 		context: context,
@@ -81,15 +83,22 @@ void _showSimpleModalBottomSheet(BuildContext context, ProductModel datas, CartD
 
 						//Detail Product
 						DetailProductWidget(title: 'Nama Produk :', subTitle: datas.name),
-						DetailProductWidget(title: 'Stok :', subTitle: datas.stock.toString()),
 						DetailProductWidget(title: 'Harga :', subTitle: datas.price.toString()),
 
 						//Button add to cart
 						Padding(
 							padding: const EdgeInsets.all(8.0),
 							child: ElevatedButton(
-							  	onPressed: (){
-							  		
+							  	onPressed: () async {
+							  		if(datas.stock >= qtyProvider.qty){
+							  			await cartProvider.addCart(datas, qtyProvider.qty);
+								  		await productProvider.updateProduct(datas.id, {
+								  			'name': datas.name,
+								  			'stock': datas.stock - qtyProvider.qty,
+								  			'price': datas.price
+								  		});
+							  		}
+
 							  	},
 							  	child: Row(
 							  		mainAxisAlignment: MainAxisAlignment.center,

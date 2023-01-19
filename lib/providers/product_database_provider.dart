@@ -49,6 +49,11 @@ class ProductDatabaseProvider extends ChangeNotifier{
 		}
 	}
 
+	Future<void> updateProduct(int id, Map<String, dynamic> datas) async {
+		_productDatabase.updateData(id, datas);
+		await getProducts();
+	}
+
 	Future<void> deteleProduct(int id) async {
 		try{
 			await _productDatabase.deleteData(id);

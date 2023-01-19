@@ -15,7 +15,7 @@ class ListMenuAddProductPageWidget extends StatelessWidget{
 			itemBuilder: (context, i){
 				return Container(
 					margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
-					height: MediaQuery.of(context).size.width / 4,
+					height: 100,
 					decoration: BoxDecoration(
 						color: Colors.blue.shade200,
 						borderRadius: BorderRadius.circular(10),

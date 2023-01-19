@@ -37,7 +37,7 @@ class MainPage extends StatelessWidget{
 					if(value.isLoading) return const Center(child: CircularProgressIndicator());
 			    	if(value.products.isEmpty) return const Center(child: Text('Produk Kosong'));
 
-			    	return ListMenuMainPageWidget(datas: value);
+			    	return ListMenuMainPageWidget(productProvider: value);
 				},
 			),
 		);
