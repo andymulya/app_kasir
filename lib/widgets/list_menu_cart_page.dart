@@ -1,3 +1,4 @@
+import 'package:app_kasir/widgets/simple_dialog_delete_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -121,51 +122,23 @@ void _showSimpleModalBottomSheet(BuildContext context, CartModel datas, ProductD
 void _showSimpleDialog(BuildContext context, CartModel datas, ProductDatabaseProvider productProvider, CartDatabaseProvider cartProvider, QtyWidgetProvider qtyProvider){
 
 	showDialog(context: context, 
-		builder: (context) =>  SimpleDialog(
-			children: [
-				const Padding(
-					padding: EdgeInsets.all(8.0),
-					child: Center(child: Text('Apakah anda yakin ingin menghapus produk ini?')),
-				),
+		builder: (context) =>  SimpleDialogWidget(onPressed: (){
+			if(datas.qty == qtyProvider.qty || datas.qty < 1){
 
-				SizedBox(
-					child: Row(
-						mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-						children: [
+				cartProvider.deleteCart(datas.id);
+				productProvider.checkIdAndDelete(datas, qtyProvider.qty);
+				Navigator.pop(context);
 
-							ElevatedButton(
-								onPressed: () => Navigator.pop(context),
-								child: const Text('Tidak')
-							),
+			}else{
+				cartProvider.updateCart(datas.id, {
+					'name': datas.name,
+					'qty': datas.qty - qtyProvider.qty,
+					'price': datas.price
+				});
 
-							ElevatedButton(
-								onPressed: (){
-
-									if(datas.qty == qtyProvider.qty || datas.qty < 1){
-
-										cartProvider.deleteCart(datas.id);
-										productProvider.checkIdAndDelete(datas, qtyProvider.qty);
-										Navigator.pop(context);
-
-									}else{
-										cartProvider.updateCart(datas.id, {
-											'name': datas.name,
-											'qty': datas.qty - qtyProvider.qty,
-											'price': datas.price
-										});
-
-										productProvider.checkIdAndDelete(datas, qtyProvider.qty);
-										Navigator.pop(context);
-									}
-
-									
-								},
-								child: const Text('Ya'),
-							),
-						],
-					),
-				)
-			]
-		)
+				productProvider.checkIdAndDelete(datas, qtyProvider.qty);
+				Navigator.pop(context);
+			}
+		})
 	);
 }

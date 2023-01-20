@@ -37,98 +37,103 @@ class AddProductPage extends StatelessWidget{
 
 //View show dialog untuk form tambah data produk
 void _showSimpleDialog(BuildContext context, AddFormProvider addFormProvider, ProductDatabaseProvider sqfliteProvider){
+
+
 	showDialog(context: context, 
-		builder: (context) => SimpleDialog(
-			children: [
-				Row(
-					mainAxisAlignment: MainAxisAlignment.spaceBetween,
-					children: [
-						const Padding(
-						  padding: EdgeInsets.all(8.0),
-						  child: Text('Tambah Produk'),
-						),
-						CloseButton(color: Colors.red, onPressed: () => Navigator.pop(context))
-					],
-				),
+		builder: (context){
 
-				SizedBox(
-					child: Column(
-					  	children: [
-					  		Padding(
-						  		padding: const EdgeInsets.all(8.0),
-						  		child: Form(
-						  		  	key: addFormProvider.formKey,
-						  		  	child: Column(
-						  		  	  	children: [
-						  		  	  		//Form untuk nama produk
-						  		  	  		TextFormField(
-						  		  	  			controller: addFormProvider.name,
-						  		  	  			autofocus: true,
-						  		  	  			decoration: const InputDecoration(
-						  		  	  				labelText: 'Nama Produk',
-						  		  	  				hintText: 'Masukkan Nama Produk',
-						  		  	  				border: OutlineInputBorder(),
-						  		  	  			),
-						  		  	  			validator: (value){
-						  		  	  				if(value!.isEmpty) return 'Nama tidak boleh kosong';
-						  		  	  				return null;
-						  		  	  			},
-						  		  	  		),
+			if(context.debugDoingBuild){
+				addFormProvider.name.text = '';
+				addFormProvider.stock.text = '';
+				addFormProvider.price.text = '';
+			}
 
-						  		  	  		//Form untuk stok produk
-						  		  	  		Container(
-						  		  	  			margin: const EdgeInsets.symmetric(vertical: 10),
-							  		  	  		child: TextFormField(
-							  		  	  			controller: addFormProvider.stock,
-							  		  	  		  	decoration: const InputDecoration(
-							  		  	  		  		labelText: 'Stok Produk',
-							  		  	  		  		hintText: 'Masukkan Stok Produk',
-							  		  	  		  		border: OutlineInputBorder(),
-							  		  	  		  	),
-							  		  	  		  	keyboardType: TextInputType.number,
-							  		  	  		  	validator: (value){
-							  		  	  		  		if(value!.isEmpty) return 'Masukkan stok yang valid';
-							  		  	  		  		return null;
-							  		  	  		  	},
-							  		  	  		),
-						  		  	  		),
-
-						  		  	  		//Form untuk harga produk
-						  		  	  		TextFormField(
-						  		  	  			controller: addFormProvider.price,
-						  		  	  			decoration: const InputDecoration(
-						  		  	  				labelText: 'Harga Produk',
-						  		  	  				hintText: 'Masukkan Harga Produk',
-						  		  	  				border: OutlineInputBorder(),
-						  		  	  			),
-						  		  	  			keyboardType: TextInputType.number,
-						  		  	  			validator: (value){
-						  		  	  				if(value!.isEmpty) return 'Harga tidak boleh kosong';
-						  		  	  				return null;
-						  		  	  			},
-						  		  	  		),
-
-						  		  	  		//Tombol untuk mengirim data produk
-						  		  	  		ElevatedButton(
-						  		  	  			onPressed: (){
-						  		  	  				if(addFormProvider.formKey.currentState!.validate()){
-
-						  		  	  					sqfliteProvider.addProduct(addFormProvider);
-						  		  	  					addFormProvider.name.text = '';
-						  		  	  					addFormProvider.stock.text = '';
-						  		  	  					addFormProvider.price.text = '';
-
-						  		  	  				}
-						  		  	  			},
-						  		  	  			child: const Text('Tambahkan Produk')
-						  		  	  		)
-						  		  	  	],
-						  		  	),
-						  		),
-					  		),
-					  	]
+			return SimpleDialog(
+				children: [
+					Row(
+						mainAxisAlignment: MainAxisAlignment.spaceBetween,
+						children: [
+							const Padding(
+							  padding: EdgeInsets.all(8.0),
+							  child: Text('Tambah Produk'),
+							),
+							CloseButton(color: Colors.red, onPressed: () => Navigator.pop(context))
+						],
 					),
-				)
-			],
-	));
+
+					SizedBox(
+						child: Column(
+						  	children: [
+						  		Padding(
+							  		padding: const EdgeInsets.all(8.0),
+							  		child: Form(
+							  		  	key: addFormProvider.formKey,
+							  		  	child: Column(
+							  		  	  	children: [
+							  		  	  		//Form untuk nama produk
+							  		  	  		TextFormField(
+							  		  	  			controller: addFormProvider.name,
+							  		  	  			autofocus: true,
+							  		  	  			decoration: const InputDecoration(
+							  		  	  				labelText: 'Nama Produk',
+							  		  	  				hintText: 'Masukkan Nama Produk',
+							  		  	  				border: OutlineInputBorder(),
+							  		  	  			),
+							  		  	  			validator: (value){
+							  		  	  				if(value!.isEmpty) return 'Nama tidak boleh kosong';
+							  		  	  				return null;
+							  		  	  			},
+							  		  	  		),
+
+							  		  	  		//Form untuk stok produk
+							  		  	  		Container(
+							  		  	  			margin: const EdgeInsets.symmetric(vertical: 10),
+								  		  	  		child: TextFormField(
+								  		  	  			controller: addFormProvider.stock,
+								  		  	  		  	decoration: const InputDecoration(
+								  		  	  		  		labelText: 'Stok Produk',
+								  		  	  		  		hintText: 'Masukkan Stok Produk',
+								  		  	  		  		border: OutlineInputBorder(),
+								  		  	  		  	),
+								  		  	  		  	keyboardType: TextInputType.number,
+								  		  	  		  	validator: (value){
+								  		  	  		  		if(value!.isEmpty) return 'Masukkan stok yang valid';
+								  		  	  		  		return null;
+								  		  	  		  	},
+								  		  	  		),
+							  		  	  		),
+
+							  		  	  		//Form untuk harga produk
+							  		  	  		TextFormField(
+							  		  	  			controller: addFormProvider.price,
+							  		  	  			decoration: const InputDecoration(
+							  		  	  				labelText: 'Harga Produk',
+							  		  	  				hintText: 'Masukkan Harga Produk',
+							  		  	  				border: OutlineInputBorder(),
+							  		  	  			),
+							  		  	  			keyboardType: TextInputType.number,
+							  		  	  			validator: (value){
+							  		  	  				if(value!.isEmpty) return 'Harga tidak boleh kosong';
+							  		  	  				return null;
+							  		  	  			},
+							  		  	  		),
+
+							  		  	  		//Tombol untuk mengirim data produk
+							  		  	  		ElevatedButton(
+							  		  	  			onPressed: (){
+							  		  	  				if(addFormProvider.formKey.currentState!.validate()) sqfliteProvider.addProduct(addFormProvider);
+							  		  	  			},
+							  		  	  			child: const Text('Tambahkan Produk')
+							  		  	  		)
+							  		  	  	],
+							  		  	),
+							  		),
+						  		),
+						  	]
+						),
+					)
+				],
+			);
+		}
+	);
 }

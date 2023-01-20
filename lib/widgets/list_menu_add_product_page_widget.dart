@@ -1,3 +1,4 @@
+import 'package:app_kasir/widgets/simple_dialog_delete_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../models/product_model.dart';
@@ -74,34 +75,9 @@ class ListMenuAddProductPageWidget extends StatelessWidget{
 //View show dialog untuk produk yang ingin dihapus atau tidak
 void _showSimpleDialog(BuildContext context, ProductDatabaseProvider action, ProductModel datas){
 	showDialog(context: context, 
-		builder: (context) =>  SimpleDialog(
-			children: [
-				const Padding(
-					padding: EdgeInsets.all(8.0),
-					child: Center(child: Text('Apakah anda yakin ingin menghapus produk ini?')),
-				),
-
-				SizedBox(
-					child: Row(
-						mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-						children: [
-
-							ElevatedButton(
-								onPressed: () => Navigator.pop(context),
-								child: const Text('Tidak')
-							),
-
-							ElevatedButton(
-								onPressed: (){
-									action.deteleProduct(datas.id);
-									Navigator.pop(context);
-								},
-								child: const Text('Ya'),
-							),
-						],
-					),
-				)
-			]
-		)
+		builder: (context) =>  SimpleDialogWidget(onPressed: (){
+			action.deteleProduct(datas.id);
+			Navigator.pop(context);
+		})
 	);
 }
