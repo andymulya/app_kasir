@@ -1,7 +1,7 @@
-import 'package:app_kasir/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 import '../models/cart_model.dart';
+import '../models/product_model.dart';
 import '../services/cart_database.dart';
 import '../utility/func.dart';
 
@@ -52,6 +52,7 @@ class CartDatabaseProvider extends ChangeNotifier{
 				});
 			}else{
 				await _cartDatabase.insertData({
+					'id': product.id,
 					'name': product.name,
 					'qty': convertPositif(qty),
 					'price': convertPositif(product.price)
@@ -64,7 +65,14 @@ class CartDatabaseProvider extends ChangeNotifier{
 		}
 	}
 
-	Future<void> deteleCart(int id) async {
+	//Memperbarui data di database
+	Future<void> updateCart(int id, Map<String, dynamic> datas) async {
+		await _cartDatabase.updateData(id, datas);
+		await getCarts();
+	}
+
+	//Menghapus data di database
+	Future<void> deleteCart(int id) async {
 		try{
 			await _cartDatabase.deleteData(id);
 			await getCarts();

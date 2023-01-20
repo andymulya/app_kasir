@@ -60,6 +60,7 @@ class CartDatabase with SqfliteIntance{
 		}
 	}
 
+
 	//Check data didalam database, kalau ada akan return id jika tidak ada akan return nilai 0
 	Future<int> checkData(int id) async {
 		final db = await CartDatabase().createDatabase();

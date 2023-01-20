@@ -1,3 +1,4 @@
+import 'package:app_kasir/models/cart_model.dart';
 import 'package:flutter/material.dart';
 
 import '../models/product_model.dart';
@@ -26,6 +27,7 @@ class ProductDatabaseProvider extends ChangeNotifier{
 		getProducts();
 	}
 
+	//Mengambil semua data dari database
 	Future<void> getProducts() async {
 		setIsLoading(true);
 
@@ -36,6 +38,7 @@ class ProductDatabaseProvider extends ChangeNotifier{
 		notifyListeners();
 	}
 
+	//Menambahkan data di database
 	Future<void> addProduct(AddFormProvider addFormProvider) async {
 		try{
 			await _productDatabase.insertData({
@@ -49,11 +52,13 @@ class ProductDatabaseProvider extends ChangeNotifier{
 		}
 	}
 
+	//Memperbarui data di database
 	Future<void> updateProduct(int id, Map<String, dynamic> datas) async {
 		_productDatabase.updateData(id, datas);
 		await getProducts();
 	}
 
+	//Menghapus data di database
 	Future<void> deteleProduct(int id) async {
 		try{
 			await _productDatabase.deleteData(id);
@@ -63,5 +68,18 @@ class ProductDatabaseProvider extends ChangeNotifier{
 		}
 	}
 
+	//Mengambil stock yang dipilih dari database
+	Future<int> getStock(int id) async {
+		return await _productDatabase.getStock(id);
+	}
+
+	//Mengcalculasi stock pada sebuah product
+	Future<void> calcuProduct(CartModel datas, int qty) async {
+		await updateProduct(datas.id, {
+			'name': datas.name,
+			'stock': await getStock(datas.id) + qty,
+			'price': datas.price
+		});
+	}
 
 }

@@ -4,7 +4,10 @@ import 'package:provider/provider.dart';
 import '../providers/qty_widget_provider.dart';
 
 class QtyWidget extends StatelessWidget{
-	const QtyWidget({super.key});
+
+	final int stock;
+
+	const QtyWidget({required this.stock, super.key});
 
 	@override
 	Widget build(BuildContext context){
@@ -43,7 +46,7 @@ class QtyWidget extends StatelessWidget{
 			  		  		borderRadius: BorderRadius.circular(50),
 			  		  	),
 			  		  	child: GestureDetector(
-			  		  		onTap: () => qtyProvider.plus(),
+			  		  		onTap: () => qtyProvider.plus(stock),
 			  		  		child: const Icon(Icons.add, color: Colors.white)
 			  		  	),
 			  		),

@@ -1,6 +1,6 @@
-import 'package:app_kasir/models/product_model.dart';
 import 'package:flutter/material.dart';
 
+import '../models/product_model.dart';
 import '../providers/product_database_provider.dart';
 
 class ListMenuAddProductPageWidget extends StatelessWidget{
@@ -72,7 +72,7 @@ class ListMenuAddProductPageWidget extends StatelessWidget{
 }
 
 //View show dialog untuk produk yang ingin dihapus atau tidak
-void _showSimpleDialog(BuildContext context, ProductDatabaseProvider action, ProductModel data){
+void _showSimpleDialog(BuildContext context, ProductDatabaseProvider action, ProductModel datas){
 	showDialog(context: context, 
 		builder: (context) =>  SimpleDialog(
 			children: [
@@ -93,7 +93,7 @@ void _showSimpleDialog(BuildContext context, ProductDatabaseProvider action, Pro
 
 							ElevatedButton(
 								onPressed: (){
-									action.deteleProduct(data.id);
+									action.deteleProduct(datas.id);
 									Navigator.pop(context);
 								},
 								child: const Text('Ya'),

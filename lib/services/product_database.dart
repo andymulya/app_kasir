@@ -44,14 +44,30 @@ class ProductDatabase with SqfliteIntance{
 		}
 	}
 
-  @override
-  Future<int> updateData(int id, Map<String, dynamic> datas) async {
-    final db = await ProductDatabase().createDatabase();
+	//Memperbarui data di database
+  	@override
+ 	 Future<int> updateData(int id, Map<String, dynamic> datas) async {
+    	final db = await ProductDatabase().createDatabase();
 
 		try{
 			final update = await db.update(tableProduct.tableName, datas, where: 'id = ?', whereArgs: [id]);
 
 			return update;
+		}catch(e){
+			rethrow;
+		}
+	}
+
+	//Ambil stock data yg dipilih
+	Future<int> getStock(int id) async {
+		final db = await ProductDatabase().createDatabase();
+
+		try{
+			final check = await db.query(tableProduct.tableName, where: 'id = ?', whereArgs: [id]);
+			final List<ProductModel> generate = check.map((e) => ProductModel.fromDatabase(e)).toList();
+			final result = generate.map((e) => e.stock).toList();
+			return result[0];
+
 		}catch(e){
 			rethrow;
 		}
