@@ -14,32 +14,29 @@ class MainPage extends StatelessWidget{
 	}
 
 	@override
-	Widget build(BuildContext context){
+	Widget build(BuildContext context) => Scaffold(
+		floatingActionButton: FloatingActionButton(
+			onPressed: () => Navigator.pushNamed(context, '/add_product'),
+			child: const Icon(
+				Icons.add
+			),
+		),
+		appBar: AppBar(
+			title: const Text('Daftar Produk'),
+			actions: [
+				IconButton(
+					onPressed: () => Navigator.pushNamed(context, '/cart_page'), 
+					icon: const Icon(Icons.shopping_cart)
+				)
+			],
+		),
+		body: Consumer<ProductDatabaseProvider>(
+			builder: (context, value, _){
+				if(value.isLoading) return const Center(child: CircularProgressIndicator());
+		    	if(value.products.isEmpty) return const Center(child: Text('Produk Kosong'));
 
-		return Scaffold(
-			floatingActionButton: FloatingActionButton(
-				onPressed: () => Navigator.pushNamed(context, '/add_product'),
-				child: const Icon(
-					Icons.add
-				),
-			),
-			appBar: AppBar(
-				title: const Text('Daftar Produk'),
-				actions: [
-					IconButton(
-						onPressed: () => Navigator.pushNamed(context, '/cart_page'), 
-						icon: const Icon(Icons.shopping_cart)
-					)
-				],
-			),
-			body: Consumer<ProductDatabaseProvider>(
-				builder: (context, value, _){
-					if(value.isLoading) return const Center(child: CircularProgressIndicator());
-			    	if(value.products.isEmpty) return const Center(child: Text('Produk Kosong'));
-
-			    	return ListMenuMainPageWidget(productProvider: value);
-				},
-			),
-		);
-	}
+		    	return ListMenuMainPageWidget(productProvider: value);
+			},
+		),
+	);
 }

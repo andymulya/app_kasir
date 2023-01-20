@@ -71,74 +71,68 @@ class ListMenuCartPageWidget extends StatelessWidget{
 }
 
 //View show modal bottom sheet untuk menghapus jumlah produk yang ada di cart
-void _showSimpleModalBottomSheet(BuildContext context, CartModel datas, ProductDatabaseProvider productProvider, CartDatabaseProvider cartProvider, QtyWidgetProvider qtyProvider){
+void _showSimpleModalBottomSheet(BuildContext context, CartModel datas, ProductDatabaseProvider productProvider, CartDatabaseProvider cartProvider, QtyWidgetProvider qtyProvider) => showModalBottomSheet(
+	context: context,
+	builder: (context){
 
-	showModalBottomSheet(
-		context: context,
-		builder: (context){
-
-			if(context.debugDoingBuild){
-				if(qtyProvider.qty != 1) qtyProvider.qty = 1;
-			}
-
-			return SizedBox(
-				child: Column(
-					mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-					children: [
-						//Qty
-						QtyWidget(stock: datas.qty),
-
-						//Detail Product
-						DetailProductWidget(title: 'Nama Produk :', subTitle: datas.name),
-						DetailProductWidget(title: 'Jumlah :', subTitle: datas.qty.toString()),
-						DetailProductWidget(title: 'Harga :', subTitle: datas.price.toString()),
-
-						//Tombol untuk menghapus product dikeranjang
-						Padding(
-							padding: const EdgeInsets.all(8.0),
-							child: ElevatedButton(
-							  	onPressed: (){
-							  		Navigator.pop(context);
-							  		_showSimpleDialog(context, datas, productProvider, cartProvider, qtyProvider);
-							  	},
-							  	child: Row(
-							  		mainAxisAlignment: MainAxisAlignment.center,
-							  		children: const[
-							  			Text('Hapus Produk'),
-							  			Icon(Icons.delete)
-							  		],
-							  	),
-							),
-						)
-					],
-				),
-			);
+		if(context.debugDoingBuild){
+			if(qtyProvider.qty != 1) qtyProvider.qty = 1;
 		}
-	);
-}
+
+		return SizedBox(
+			child: Column(
+				mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+				children: [
+					//Qty
+					QtyWidget(stock: datas.qty),
+
+					//Detail Product
+					DetailProductWidget(title: 'Nama Produk :', subTitle: datas.name),
+					DetailProductWidget(title: 'Jumlah :', subTitle: datas.qty.toString()),
+					DetailProductWidget(title: 'Harga :', subTitle: datas.price.toString()),
+
+					//Tombol untuk menghapus product dikeranjang
+					Padding(
+						padding: const EdgeInsets.all(8.0),
+						child: ElevatedButton(
+						  	onPressed: (){
+						  		Navigator.pop(context);
+						  		_showSimpleDialog(context, datas, productProvider, cartProvider, qtyProvider);
+						  	},
+						  	child: Row(
+						  		mainAxisAlignment: MainAxisAlignment.center,
+						  		children: const[
+						  			Text('Hapus Produk'),
+						  			Icon(Icons.delete)
+						  		],
+						  	),
+						),
+					)
+				],
+			),
+		);
+	}
+);
 
 
 //View show dialog untuk produk yang ingin dihapus atau tidak
-void _showSimpleDialog(BuildContext context, CartModel datas, ProductDatabaseProvider productProvider, CartDatabaseProvider cartProvider, QtyWidgetProvider qtyProvider){
+void _showSimpleDialog(BuildContext context, CartModel datas, ProductDatabaseProvider productProvider, CartDatabaseProvider cartProvider, QtyWidgetProvider qtyProvider) => showDialog(context: context, 
+	builder: (context) =>  SimpleDialogWidget(onPressed: (){
+		if(datas.qty == qtyProvider.qty || datas.qty < 1){
 
-	showDialog(context: context, 
-		builder: (context) =>  SimpleDialogWidget(onPressed: (){
-			if(datas.qty == qtyProvider.qty || datas.qty < 1){
+			cartProvider.deleteCart(datas.id);
+			productProvider.checkIdAndDelete(datas, qtyProvider.qty);
+			Navigator.pop(context);
 
-				cartProvider.deleteCart(datas.id);
-				productProvider.checkIdAndDelete(datas, qtyProvider.qty);
-				Navigator.pop(context);
+		}else{
+			cartProvider.updateCart(datas.id, {
+				'name': datas.name,
+				'qty': datas.qty - qtyProvider.qty,
+				'price': datas.price
+			});
 
-			}else{
-				cartProvider.updateCart(datas.id, {
-					'name': datas.name,
-					'qty': datas.qty - qtyProvider.qty,
-					'price': datas.price
-				});
-
-				productProvider.checkIdAndDelete(datas, qtyProvider.qty);
-				Navigator.pop(context);
-			}
-		})
-	);
-}
+			productProvider.checkIdAndDelete(datas, qtyProvider.qty);
+			Navigator.pop(context);
+		}
+	})
+);

@@ -7,13 +7,11 @@ class DetailProductWidget extends StatelessWidget{
 	const DetailProductWidget({required this.title, required this.subTitle, super.key});
 
 	@override
-	Widget build(BuildContext context){
-		return Row(
-			mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-			children: [
-				Text(title),
-				Text(subTitle)
-			],
-		);
-	}
+	Widget build(BuildContext context) => Row(
+		mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+		children: [
+			Text(title),
+			Text(subTitle)
+		],
+	);
 }

@@ -69,56 +69,53 @@ class ListMenuMainPageWidget extends StatelessWidget{
 	}
 }
 
-void _showSimpleModalBottomSheet(BuildContext context, ProductModel datas, ProductDatabaseProvider productProvider, CartDatabaseProvider cartProvider, QtyWidgetProvider qtyProvider){
+void _showSimpleModalBottomSheet(BuildContext context, ProductModel datas, ProductDatabaseProvider productProvider, CartDatabaseProvider cartProvider, QtyWidgetProvider qtyProvider) => showModalBottomSheet(
+	context: context,
+	builder: (context){
 
-	showModalBottomSheet(
-		context: context,
-		builder: (context){
-
-			if(context.debugDoingBuild){
-				if(qtyProvider.qty != 1) qtyProvider.qty = 1;
-			}
-
-			return SizedBox(
-				child: Column(
-					mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-					children: [
-						//Qty
-						QtyWidget(stock: datas.stock),
-
-						//Detail Product
-						DetailProductWidget(title: 'Nama Produk :', subTitle: datas.name),
-						DetailProductWidget(title: 'Stok :', subTitle: datas.stock.toString()),
-						DetailProductWidget(title: 'Harga :', subTitle: datas.price.toString()),
-
-						//Button add to cart
-						Padding(
-							padding: const EdgeInsets.all(8.0),
-							child: ElevatedButton(
-							  	onPressed: (){
-							  		if(datas.stock >= qtyProvider.qty){
-							  			cartProvider.addCart(datas, qtyProvider.qty);
-								  		productProvider.updateProduct(datas.id, {
-								  			'name': datas.name,
-								  			'stock': datas.stock - qtyProvider.qty,
-								  			'price': datas.price
-								  		});
-								  		Navigator.pop(context);
-							  		}
-
-							  	},
-							  	child: Row(
-							  		mainAxisAlignment: MainAxisAlignment.center,
-							  		children: const[
-							  			Text('Tambahkan ke keranjang'),
-							  			Icon(Icons.shopping_cart_checkout_rounded)
-							  		],
-							  	),
-							),
-						)
-					],
-				),
-			);
+		if(context.debugDoingBuild){
+			if(qtyProvider.qty != 1) qtyProvider.qty = 1;
 		}
-	);
-}
+
+		return SizedBox(
+			child: Column(
+				mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+				children: [
+					//Qty
+					QtyWidget(stock: datas.stock),
+
+					//Detail Product
+					DetailProductWidget(title: 'Nama Produk :', subTitle: datas.name),
+					DetailProductWidget(title: 'Stok :', subTitle: datas.stock.toString()),
+					DetailProductWidget(title: 'Harga :', subTitle: datas.price.toString()),
+
+					//Button add to cart
+					Padding(
+						padding: const EdgeInsets.all(8.0),
+						child: ElevatedButton(
+						  	onPressed: (){
+						  		if(datas.stock >= qtyProvider.qty){
+						  			cartProvider.addCart(datas, qtyProvider.qty);
+							  		productProvider.updateProduct(datas.id, {
+							  			'name': datas.name,
+							  			'stock': datas.stock - qtyProvider.qty,
+							  			'price': datas.price
+							  		});
+							  		Navigator.pop(context);
+						  		}
+
+						  	},
+						  	child: Row(
+						  		mainAxisAlignment: MainAxisAlignment.center,
+						  		children: const[
+						  			Text('Tambahkan ke keranjang'),
+						  			Icon(Icons.shopping_cart_checkout_rounded)
+						  		],
+						  	),
+						),
+					)
+				],
+			),
+		);
+	}
+);

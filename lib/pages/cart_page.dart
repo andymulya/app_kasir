@@ -15,20 +15,18 @@ class CartPage extends StatelessWidget{
 	}
 
 	@override
-	Widget build(BuildContext context){
-		return Scaffold(
-			appBar: AppBar(
-				title: const Text('Keranjang')
-			),
+	Widget build(BuildContext context) => Scaffold(
+		appBar: AppBar(
+			title: const Text('Keranjang')
+		),
 
-			body: Consumer<CartDatabaseProvider>(
-				builder: (context, datas, _){
-					if(datas.isLoading) return const Center(child: CircularProgressIndicator());
-					if(datas.carts.isEmpty) return const Center(child: Text('Keranjang kosong'));
+		body: Consumer<CartDatabaseProvider>(
+			builder: (context, datas, _){
+				if(datas.isLoading) return const Center(child: CircularProgressIndicator());
+				if(datas.carts.isEmpty) return const Center(child: Text('Keranjang kosong'));
 
-					return ListMenuCartPageWidget(datas: datas);
-				},
-			),
-		);
-	}
+				return ListMenuCartPageWidget(datas: datas);
+			},
+		),
+	);
 }

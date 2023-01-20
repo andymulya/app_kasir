@@ -1,3 +1,4 @@
+import 'package:app_kasir/providers/list_menu_add_product_widget_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget{
         ChangeNotifierProvider(create: (context) => ProductDatabaseProvider()),
         ChangeNotifierProvider(create: (context) => CartDatabaseProvider()),
         ChangeNotifierProvider(create: (context) => AddFormProvider()),
-        ChangeNotifierProvider(create: (context) => QtyWidgetProvider())
+        ChangeNotifierProvider(create: (context) => QtyWidgetProvider()),
+        ChangeNotifierProvider(create: (context) => ListMenuAddProductWidgetProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,7 +1,5 @@
 import 'package:app_kasir/models/cart_model.dart';
-import 'package:app_kasir/providers/cart_database_provider.dart';
 import 'package:flutter/material.dart';
-
 import '../models/product_model.dart';
 import '../services/product_database.dart';
 import '../utility/func.dart';
