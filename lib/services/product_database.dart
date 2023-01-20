@@ -72,4 +72,25 @@ class ProductDatabase with SqfliteIntance{
 			rethrow;
 		}
 	}
+
+	//Check data didalam database, kalau ada akan return id jika tidak ada akan return nilai 0
+	Future<int> checkData(int id) async {
+		final db = await ProductDatabase().createDatabase();
+
+		try{
+			final check = await db.query(tableProduct.tableName, where: 'id = ?', whereArgs: [id]);
+			final List<ProductModel> resultId = check.map((e) => ProductModel.fromDatabase(e)).toList();
+			
+			for(var e in resultId){
+				if(e.id == id){
+					return 1;
+				}
+			}
+
+			return 0;
+
+		}catch(e){
+			rethrow;
+		}
+	}
 }

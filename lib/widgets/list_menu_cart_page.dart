@@ -139,21 +139,26 @@ void _showSimpleDialog(BuildContext context, CartModel datas, ProductDatabasePro
 							),
 
 							ElevatedButton(
-								onPressed: () async {
-									if(datas.qty > 1) {
+								onPressed: (){
+
+									if(datas.qty == qtyProvider.qty || datas.qty < 1){
+
+										cartProvider.deleteCart(datas.id);
+										productProvider.checkIdAndDelete(datas, qtyProvider.qty);
+										Navigator.pop(context);
+
+									}else{
 										cartProvider.updateCart(datas.id, {
 											'name': datas.name,
 											'qty': datas.qty - qtyProvider.qty,
 											'price': datas.price
 										});
 
-										productProvider.calcuProduct(datas, qtyProvider.qty);
-										Navigator.pop(context);
-									}else{
-										cartProvider.deleteCart(datas.id);
-										productProvider.calcuProduct(datas, qtyProvider.qty);
+										productProvider.checkIdAndDelete(datas, qtyProvider.qty);
 										Navigator.pop(context);
 									}
+
+									
 								},
 								child: const Text('Ya'),
 							),
