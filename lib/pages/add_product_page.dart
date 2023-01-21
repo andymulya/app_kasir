@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/add_form_provider.dart';
-import '../providers/list_menu_add_product_widget_provider.dart';
 import '../providers/product_database_provider.dart';
 import '../widgets/list_menu_add_product_page_widget.dart';
 
@@ -42,10 +41,8 @@ void _showSimpleDialogAdd(BuildContext context, AddFormProvider addFormProvider,
 	context: context, 
 	builder: (context){
 
-		final ListMenuAddProductWidgetProvider isChange = Provider.of<ListMenuAddProductWidgetProvider>(context);
 
 		if(context.debugDoingBuild){
-			isChange.isChange = true;
 
 			addFormProvider.refreshValue();
 		}
