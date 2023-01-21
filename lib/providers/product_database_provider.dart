@@ -82,7 +82,7 @@ class ProductDatabaseProvider extends ChangeNotifier{
 	}
 
 	//Cek id dan menghapus
-	Future<void> checkIdAndDelete(CartModel datas, int qty) async {
+	Future<void> checkIdAndUpdate(CartModel datas, int qty) async {
 		final check = await _productDatabase.checkData(datas.id);
 
 		if(check > 0){

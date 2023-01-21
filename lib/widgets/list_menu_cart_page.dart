@@ -121,7 +121,7 @@ void _showSimpleDialog(BuildContext context, CartModel datas, ProductDatabasePro
 		if(datas.qty == qtyProvider.qty || datas.qty < 1){
 
 			cartProvider.deleteCart(datas.id);
-			productProvider.checkIdAndDelete(datas, qtyProvider.qty);
+			productProvider.checkIdAndUpdate(datas, qtyProvider.qty);
 			Navigator.pop(context);
 
 		}else{
@@ -131,7 +131,7 @@ void _showSimpleDialog(BuildContext context, CartModel datas, ProductDatabasePro
 				'price': datas.price
 			});
 
-			productProvider.checkIdAndDelete(datas, qtyProvider.qty);
+			productProvider.checkIdAndUpdate(datas, qtyProvider.qty);
 			Navigator.pop(context);
 		}
 	})

@@ -1,3 +1,4 @@
+import 'package:app_kasir/widgets/calculating_widget.dart';
 import'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +20,12 @@ class CartPage extends StatelessWidget{
 				if(datas.isLoading) return const Center(child: CircularProgressIndicator());
 				if(datas.carts.isEmpty) return const Center(child: Text('Keranjang kosong'));
 
-				return ListMenuCartPageWidget(datas: datas);
+				return Column(
+					children: [
+						Expanded(child: Container(child: ListMenuCartPageWidget(datas: datas))),
+						const CalculatingWidget()
+					],
+				);
 			},
 		),
 	);

@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
+  blue_thermal_printer:
+    dependency: "direct main"
+    description:
+      name: blue_thermal_printer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -95,13 +102,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
-  min_id:
-    dependency: "direct main"
-    description:
-      name: min_id
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   nested:
     dependency: transitive
     description:
