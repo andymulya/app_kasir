@@ -60,6 +60,9 @@ class CartDatabase with SqfliteIntance{
 		}
 	}
 
+	@override
+	Future<dynamic> dispose() async => await CartDatabase().dispose();
+
 
 	//Check data didalam database, kalau ada akan return id jika tidak ada akan return nilai 0
 	Future<int> checkData(int id) async {

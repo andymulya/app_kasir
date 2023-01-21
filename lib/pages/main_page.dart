@@ -1,17 +1,29 @@
+import 'package:app_kasir/utility/dispose.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/product_database_provider.dart';
 import '../widgets/list_menu_main_page_widget.dart';
 
-class MainPage extends StatelessWidget{
+class MainPage extends StatefulWidget{
 	const MainPage({super.key});
 
+  	@override
+  	State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
 	//Untuk mendapatkan product ketika halaman baru dijalankan
 	Future<void> getProducts(BuildContext context) async {
 		final products = Provider.of<ProductDatabaseProvider>(context);
 		await products.getProducts();
 	}
+
+	@override
+	void dispose() {
+	    super.dispose();
+	    disposeAll();
+	  }
 
 	@override
 	Widget build(BuildContext context) => Scaffold(

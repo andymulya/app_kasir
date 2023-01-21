@@ -58,4 +58,6 @@ mixin SqfliteIntance{
 
 	// Hapus data di database
 	Future<int> deleteData(int id);
+
+	Future<dynamic> dispose();
 }

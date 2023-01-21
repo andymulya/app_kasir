@@ -90,4 +90,6 @@ class ProductDatabaseProvider extends ChangeNotifier{
 		}
 	}
 
+	Future<void> disposeDatabase() => _productDatabase.dispose();
+
 }

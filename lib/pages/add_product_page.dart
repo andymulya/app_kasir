@@ -47,13 +47,14 @@ void _showSimpleDialogAdd(BuildContext context, AddFormProvider addFormProvider,
 		if(context.debugDoingBuild){
 			isChange.isChange = true;
 
-			addFormProvider.name.text = '';
-			addFormProvider.stock.text = '';
-			addFormProvider.price.text = '';
+			addFormProvider.refreshValue();
 		}
 
-		return SimpleDialogFormWidget(addFormProvider: addFormProvider, productProvider: productProvider, onPressed: (){
-			if(addFormProvider.formKey.currentState!.validate()) productProvider.addProduct(addFormProvider);
+		return SimpleDialogFormWidget(addFormProvider: addFormProvider, productProvider: productProvider, onPressed: () async {
+			if(addFormProvider.formKey.currentState!.validate()){
+				await productProvider.addProduct(addFormProvider);
+				addFormProvider.refreshValue();
+			}
 		});
 	}
 );

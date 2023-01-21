@@ -58,6 +58,9 @@ class ProductDatabase with SqfliteIntance{
 		}
 	}
 
+	@override
+	Future<dynamic> dispose() async => await ProductDatabase().dispose();
+
 	//Ambil stock data yg dipilih
 	Future<int> getStock(int id) async {
 		final db = await ProductDatabase().createDatabase();

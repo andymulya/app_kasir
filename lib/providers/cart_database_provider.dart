@@ -81,4 +81,6 @@ class CartDatabaseProvider extends ChangeNotifier{
 		}
 	}
 
+	Future<void> disposeDatabase() => _cartDatabase.dispose();
+
 }
