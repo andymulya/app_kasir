@@ -13,12 +13,7 @@ class MainPage extends StatefulWidget{
 }
 
 class _MainPageState extends State<MainPage> {
-	//Untuk mendapatkan product ketika halaman baru dijalankan
-	Future<void> getProducts(BuildContext context) async {
-		final products = Provider.of<ProductDatabaseProvider>(context);
-		await products.getProducts();
-	}
-
+	
 	@override
 	void dispose() {
 	    super.dispose();

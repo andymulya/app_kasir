@@ -1,20 +1,17 @@
-import 'package:app_kasir/providers/list_menu_add_product_widget_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../providers/add_form_provider.dart';
-import '../providers/product_database_provider.dart';
 
 class SimpleDialogFormWidget extends StatelessWidget{
+	final String titleForm,
+	buttonName;
 	final AddFormProvider addFormProvider;
-	final ProductDatabaseProvider productProvider;
 	final Function onPressed;
 
-	const SimpleDialogFormWidget({required this.addFormProvider, required this.productProvider, required this.onPressed, super.key});
+	const SimpleDialogFormWidget({required this.titleForm, required this.buttonName, required this.addFormProvider,required this.onPressed, super.key});
 
 	@override
 	Widget build(BuildContext context){
-		final ListMenuAddProductWidgetProvider isChange = Provider.of<ListMenuAddProductWidgetProvider>(context);
 
 		return SimpleDialog(
 			children: [
@@ -23,7 +20,7 @@ class SimpleDialogFormWidget extends StatelessWidget{
 					children: [
 						Padding(
 						  padding: const EdgeInsets.all(8.0),
-						  child: Text((isChange.isChange) ? 'Tambah Produk' : 'Edit Produk'),
+						  child: Text(titleForm),
 						),
 						CloseButton(color: Colors.red, onPressed: () => Navigator.pop(context))
 					],
@@ -89,7 +86,7 @@ class SimpleDialogFormWidget extends StatelessWidget{
 						  		  	  		//Tombol untuk mengirim data produk
 						  		  	  		ElevatedButton(
 						  		  	  			onPressed: () => onPressed(),
-						  		  	  			child: Text((isChange.isChange) ? 'Tambahkan Produk' : 'Simpan')
+						  		  	  			child: Text(buttonName)
 						  		  	  		)
 						  		  	  	],
 						  		  	),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class SimpleDialogWidget extends StatelessWidget{
+class SimpleDialogDeleteWidget extends StatelessWidget{
 	final Function onPressed;
 
-	const SimpleDialogWidget({required this.onPressed, super.key});
+	const SimpleDialogDeleteWidget({required this.onPressed, super.key});
 
 	@override
 	Widget build(BuildContext context) => SimpleDialog(

@@ -8,12 +8,6 @@ import '../widgets/list_menu_cart_page.dart';
 class CartPage extends StatelessWidget{
 	const CartPage({super.key});
 
-	//Untuk mendapatkan cart ketika halaman baru dujalankan
-	Future<void> getProducts(BuildContext context) async {
-		final carts = Provider.of<CartDatabaseProvider>(context);
-		await carts.getCarts();
-	}
-
 	@override
 	Widget build(BuildContext context) => Scaffold(
 		appBar: AppBar(

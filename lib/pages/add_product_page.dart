@@ -50,7 +50,7 @@ void _showSimpleDialogAdd(BuildContext context, AddFormProvider addFormProvider,
 			addFormProvider.refreshValue();
 		}
 
-		return SimpleDialogFormWidget(addFormProvider: addFormProvider, productProvider: productProvider, onPressed: () async {
+		return SimpleDialogFormWidget(titleForm: 'Tambah Produk', buttonName: 'Tambah', addFormProvider: addFormProvider, onPressed: () async {
 			if(addFormProvider.formKey.currentState!.validate()){
 				await productProvider.addProduct(addFormProvider);
 				addFormProvider.refreshValue();

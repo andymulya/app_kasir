@@ -1,11 +1,9 @@
-import 'package:app_kasir/providers/list_menu_add_product_widget_provider.dart';
-import 'package:app_kasir/widgets/simple_dialog_delete_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../models/product_model.dart';
 import '../providers/add_form_provider.dart';
 import '../providers/product_database_provider.dart';
+import 'simple_dialog_delete_widget.dart';
 import 'simple_dialog_form_widget.dart';
 
 class ListMenuAddProductPageWidget extends StatelessWidget{
@@ -81,10 +79,7 @@ void _showSimpleDialogEdit(BuildContext context, AddFormProvider addFormProvider
 	context: context, 
 	builder: (context){
 
-		final ListMenuAddProductWidgetProvider isChange = Provider.of<ListMenuAddProductWidgetProvider>(context);
-
 		if(context.debugDoingBuild){
-			isChange.isChange = false;
 
 			addFormProvider.name.text = datas.name;
 			addFormProvider.stock.text = datas.stock.toString();
@@ -92,7 +87,7 @@ void _showSimpleDialogEdit(BuildContext context, AddFormProvider addFormProvider
 
 		}
 
-		return SimpleDialogFormWidget(addFormProvider: addFormProvider, productProvider: productProvider, onPressed: (){
+		return SimpleDialogFormWidget(titleForm: 'Edit Produk', buttonName: 'Simpan', addFormProvider: addFormProvider, onPressed: (){
 			if(addFormProvider.formKey.currentState!.validate()){
 				productProvider.updateProduct(datas.id, {
 					'name': addFormProvider.name.text,
@@ -108,7 +103,7 @@ void _showSimpleDialogEdit(BuildContext context, AddFormProvider addFormProvider
 
 //View show dialog untuk produk yang ingin dihapus atau tidak
 void _showSimpleDialog(BuildContext context, ProductDatabaseProvider action, ProductModel datas) => showDialog(context: context, 
-	builder: (context) =>  SimpleDialogWidget(onPressed: (){
+	builder: (context) =>  SimpleDialogDeleteWidget(onPressed: (){
 		action.deteleProduct(datas.id);
 		Navigator.pop(context);
 	})

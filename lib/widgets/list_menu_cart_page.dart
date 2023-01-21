@@ -117,7 +117,7 @@ void _showSimpleModalBottomSheet(BuildContext context, CartModel datas, ProductD
 
 //View show dialog untuk produk yang ingin dihapus atau tidak
 void _showSimpleDialog(BuildContext context, CartModel datas, ProductDatabaseProvider productProvider, CartDatabaseProvider cartProvider, QtyWidgetProvider qtyProvider) => showDialog(context: context, 
-	builder: (context) =>  SimpleDialogWidget(onPressed: (){
+	builder: (context) =>  SimpleDialogDeleteWidget(onPressed: (){
 		if(datas.qty == qtyProvider.qty || datas.qty < 1){
 
 			cartProvider.deleteCart(datas.id);
